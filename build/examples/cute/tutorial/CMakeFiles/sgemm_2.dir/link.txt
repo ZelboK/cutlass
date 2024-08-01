@@ -1,1 +1,0 @@
-/usr/bin/g++ @CMakeFiles/sgemm_2.dir/objects1.rsp -o sgemm_2 @CMakeFiles/sgemm_2.dir/linkLibs.rsp -L"/usr/local/cuda-12.4/targets/x86_64-linux/lib/stubs" -L"/usr/local/cuda-12.4/targets/x86_64-linux/lib"
