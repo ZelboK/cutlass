@@ -167,7 +167,7 @@ struct Copy_Traits<SM80_CP_ASYNC_CACHEGLOBAL_ZFILL<S,D>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Element copy selector
-template <class SrcTensor, class DstTensor>
+template <class CopyT = DefaultCopyType, class SrcTensor, class DstTensor>
 CUTE_HOST_DEVICE constexpr
 auto
 select_elementwise_copy(SrcTensor const&, DstTensor const&)
@@ -178,7 +178,8 @@ select_elementwise_copy(SrcTensor const&, DstTensor const&)
 #if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED)
   if constexpr (is_gmem<SrcTensor>::value && is_smem<DstTensor>::value &&
                 sizeof(SrcType) == sizeof(DstType) &&
-               (sizeof(SrcType) == 4 || sizeof(SrcType) == 8 || sizeof(SrcType) == 16))
+               (sizeof(SrcType) == 4 || sizeof(SrcType) == 8 || sizeof(SrcType) == 16) &&
+               !is_same_v<CopyT, DefaultCopyType>)
   {
     return SM80_CP_ASYNC_CACHEALWAYS<SrcType,DstType>{};
   } else {

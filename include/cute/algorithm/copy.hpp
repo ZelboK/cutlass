@@ -119,7 +119,8 @@ copy(CopyPolicy                   const& copy_policy,
 // copy_if -- Predicated Copy
 //
 
-template <class PrdTensor,
+template <class CopyT = DefaultCopyType,
+          class PrdTensor,
           class SrcEngine, class SrcLayout,
           class DstEngine, class DstLayout>
 CUTE_HOST_DEVICE
@@ -128,7 +129,7 @@ copy_if(PrdTensor                    const& pred,
         Tensor<SrcEngine, SrcLayout> const& src,
         Tensor<DstEngine, DstLayout>      & dst)
 {
-  auto copy_op = select_elementwise_copy(src, dst);
+  auto copy_op = select_elementwise_copy<CopyT>(src, dst);
 
   CUTE_UNROLL
   for (int i = 0; i < size(src); ++i) {
@@ -189,7 +190,7 @@ copy_if(Copy_Atom<CopyArgs...>       const& copy_atom,
 // copy_vec -- attempt vectorized copy with VecType
 //
 
-template <class VecType,
+template <class VecType, class CopyType = DefaultCopyType,
           class SrcEngine, class SrcLayout,
           class DstEngine, class DstLayout>
 CUTE_HOST_DEVICE
@@ -217,7 +218,6 @@ copy_vec(Tensor<SrcEngine, SrcLayout> const& src,
       print("   "); print(dst); print(" => "); print(dst_v); print("\n");
     }
 #endif
-
     return copy_if(TrivialPredTensor{}, src_v, dst_v);
   } else {
 #if 0
@@ -227,7 +227,6 @@ copy_vec(Tensor<SrcEngine, SrcLayout> const& src,
     print("   "); print(dst); print("\n");
   }
 #endif
-
     return copy_if(TrivialPredTensor{}, src, dst);
   }
 }

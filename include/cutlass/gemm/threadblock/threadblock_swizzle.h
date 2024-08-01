@@ -456,4 +456,3 @@ struct GemvBatchedStridedThreadblockDefaultSwizzle {
 } // namespace threadblock
 } // namespace gemm
 } // namespace cutlass
-

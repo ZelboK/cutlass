@@ -1,0 +1,1 @@
+-I/home/ksm/cutlass/include -I/home/ksm/cutlass/tools/profiler/include -I/home/ksm/cutlass/build/include -I/include -I/examples -I/home/ksm/cutlass/tools/library/include -I/home/ksm/cutlass/tools/util/include -isystem "/usr/local/cuda-12.4/include"

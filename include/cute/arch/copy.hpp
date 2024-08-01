@@ -66,15 +66,18 @@ struct UniversalCopy
   }
 };
 
+struct DefaultCopyType{};
+
 //
 // Placeholder for the copy algorithm's stronger auto-vectorizing behavior
 //   that assumes alignment of pointers and dynamic layouts up to MaxVecBits
 //
 
-template <int MaxVecBits = 128>
+template <int MaxVecBits = 128, class CopyT = DefaultCopyType>
 struct AutoVectorizingCopyWithAssumedAlignment
      : UniversalCopy<uint_bit_t<MaxVecBits>>
 {
+  using CopyType = CopyT;
   static_assert(MaxVecBits == 8 || MaxVecBits == 16 || MaxVecBits == 32 || MaxVecBits == 64 || MaxVecBits == 128,
                 "Expected MaxVecBits to be 8 or 16 or 32 or 64 or 128 for alignment and performance.");
 };
